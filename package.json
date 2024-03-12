@@ -1,21 +1,32 @@
 {
-  "name": "youtube-api",
+  "name": "Ezra-XD",
   "version": "1.0.0",
-  "description": "A simple API to fetch data from the YouTube API.",
-  "main": "index.js",
+  "description": "Ezra-md simple multi device WhatsApp Bot.",
+  "main": "./index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start":  "pm2 start . --attach --name ezra"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Louis-X0/EZRA-XD.git"
   },
   "keywords": [
-    "youtube",
+    "bot",
     "api",
-    "nodejs",
-    "express"
+    "Ezra",
+    "Louis",
+    "sparkyapi"
   ],
-  "author": "Your Name",
-  "license": "MIT",
+  "author": "Louis",
+  "developer": "Louis / Zeta",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Louis-X0/EZRA-XD/issues"
+  },
+  "homepage": "https://github.com/Louis-XD/EZRA-XD#readme",
   "dependencies": {
     "express": "^4.17.2",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^2.0.0",
   }
 }
