@@ -4,26 +4,26 @@ const fetch = require('node-fetch');
 const app = express();
 const port = 3000;
 
-app.get('/api/ytsearch', (req, res) => {
-    const url = req.query.url;
+app.use(express.json());
 
-    if (!url) {
-        return res.status(400).json({ error: 'URL parameter is required.' });
+async function fetchGitHubData(user) {
+    const response = await fetch(`https://api.github.com/users/${user}`);
+    return response.json();
+}
+
+app.get('/api/info/githubstalk', async (req, res) => {
+    const user = req.query.user;
+    if (!user) return res.json({ status: false, creator: 'sezraah', message: '[!] masukan parameter user' });
+
+    try {
+        const gitstalk = await fetchGitHubData(user);
+        if (gitstalk.message === 'Not Found') return res.json({ status: false, message: 'User not found' });
+
+        res.json({ status: true, creator: 'zetahhh', result: gitstalk });
+    } catch (error) {
+        console.error('Error fetching GitHub data:', error);
+        res.status(500).json({ status: false, message: 'Internal server error' });
     }
-
-    const regex = /(?<=watch\?v=)[\w-]+/;
-    const videoId = url.match(regex);
-
-    if (!videoId) {
-        return res.status(400).json({ error: 'Invalid YouTube URL.' });
-    }
-
-    fetch(`https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=${videoId[0]}&format=json`)
-        .then(response => response.json())
-        .then(data => res.json(data))
-        .catch(error => res.status(500).json({ error: 'An error occurred while fetching data from YouTube API.' }));
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+app.listen(port, () => console.log(`Server is running on port ${port}`));
