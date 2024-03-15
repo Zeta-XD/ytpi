@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
@@ -7,8 +7,12 @@ const port = 3000;
 app.use(express.json());
 
 async function fetchGitHubData(user) {
-    const response = await fetch(`https://api.github.com/users/${user}`);
-    return response.json();
+    try {
+        const response = await axios.get(`https://api.github.com/users/${user}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
 }
 
 app.get('/api/info/githubstalk', async (req, res) => {
